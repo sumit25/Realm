@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * Created by sumit on 26/07/17.
  */
 
-public class RMUserResponse extends RealmObject implements Serializable {
+public class RMUserResponse implements Serializable {
 
     private RMUserDTO user;
 

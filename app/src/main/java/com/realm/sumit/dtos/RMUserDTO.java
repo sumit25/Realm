@@ -5,20 +5,18 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import io.realm.RealmObject;
-
 /**
  * Created by sumit on 26/07/17.
  */
 
-public class RMUserDTO extends RealmObject implements Serializable {
+public class RMUserDTO implements Serializable {
 
 
     @SerializedName("_id")
     private String id;
 
-//    @SerializedName("company_ids")
-//    private ArrayList<String> companyIds;
+    @SerializedName("company_ids")
+    private ArrayList<String> companyIds;
 
     @SerializedName("created_at")
     private String createdAt;
@@ -31,8 +29,8 @@ public class RMUserDTO extends RealmObject implements Serializable {
     private long mobile;
     private String name;
 
-//    @SerializedName("role_ids")
-//    private ArrayList<String> roleIds;
+    @SerializedName("role_ids")
+    private ArrayList<String> roleIds;
 
     @SerializedName("updated_at")
     private String updatedAt;
@@ -47,13 +45,13 @@ public class RMUserDTO extends RealmObject implements Serializable {
         this.id = id;
     }
 
-//    public ArrayList<String> getCompanyIds() {
-//        return companyIds;
-//    }
-//
-//    public void setCompanyIds(ArrayList<String> companyIds) {
-//        this.companyIds = companyIds;
-//    }
+    public ArrayList<String> getCompanyIds() {
+        return companyIds;
+    }
+
+    public void setCompanyIds(ArrayList<String> companyIds) {
+        this.companyIds = companyIds;
+    }
 
     public String getCreatedAt() {
         return createdAt;
@@ -95,13 +93,13 @@ public class RMUserDTO extends RealmObject implements Serializable {
         this.name = name;
     }
 
-//    public ArrayList<String> getRoleIds() {
-//        return roleIds;
-//    }
-//
-//    public void setRoleIds(ArrayList<String> roleIds) {
-//        this.roleIds = roleIds;
-//    }
+    public ArrayList<String> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(ArrayList<String> roleIds) {
+        this.roleIds = roleIds;
+    }
 
     public String getUpdatedAt() {
         return updatedAt;
