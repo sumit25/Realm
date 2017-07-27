@@ -3,7 +3,9 @@ package com.realm.sumit.api;
 import android.text.TextUtils;
 
 import com.realm.sumit.R;
+import com.realm.sumit.config.AppPreferences;
 import com.realm.sumit.config.RealmApp;
+import com.realm.sumit.dtos.RMTokenDTO;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -28,8 +30,12 @@ public class APIUtils {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
+                RMTokenDTO rmTokenDTO = RealmApp.getPreferences().getTokenDTO();
                //TODO String token = "";
-                String token = RealmApp.getPreferences().getTokenDTO().getAccessToken();
+                String token = "";
+                if(null != rmTokenDTO){
+                   token = rmTokenDTO.getAccessToken();
+                }
                 if (!TextUtils.isEmpty(token)) {
                     Request.Builder requestBuilder = request.newBuilder();
                     requestBuilder.addHeader("Authorization", "Bearer "+token);

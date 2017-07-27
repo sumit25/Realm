@@ -21,6 +21,10 @@ android {
     }
 }
 
+realm {
+    syncEnabled = true;
+}
+
 buildscript {
     repositories {
         jcenter()
