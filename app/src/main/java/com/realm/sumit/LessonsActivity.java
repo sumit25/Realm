@@ -46,30 +46,12 @@ public class LessonsActivity extends AppCompatActivity {
 
         RealmApp.getAPIClient().getCurrentUser(new APICallback<RMUserResponse>() {
             @Override
-            public void onResponse(RMUserResponse body) {
-                Log.d("username", body.getUser().getName());
-                Log.d("company id", body.getUser().getCompanyIds().get(0).toString());
+            public void onResponse(RMUserResponse userResponse) {
+                Log.d("username", userResponse.getUser().getName());
+                Log.d("company id", userResponse.getUser().getCompanyIds().get(0).toString());
 
-
-                Realm realmInstance = Realm.getDefaultInstance();
-                realmInstance.beginTransaction();
-                UserRMObject user = realmInstance.createObject(UserRMObject.class); // Create a new object
-
-                user.setEmail(body.getUser().getEmail());
-                user.setCreatedAt(body.getUser().getCreatedAt());
-                user.setId(body.getUser().getId());
-                user.setMobile(body.getUser().getMobile());
-                user.setUsername(body.getUser().getUsername());
-                user.setUpdatedAt(body.getUser().getUpdatedAt());
-                user.setRoleId(body.getUser().getRoleIds().get(0));
-                user.setCompanyId(body.getUser().getCompanyIds().get(0));
-
-                realmInstance.copyToRealm(user);
-                realmInstance.commitTransaction();
-
-                getUserProfile(body);
-
-
+                RealmApp.getRealmHelper().saveUserToRealm(userResponse);
+                getUserProfile(userResponse);
             }
         });
     }

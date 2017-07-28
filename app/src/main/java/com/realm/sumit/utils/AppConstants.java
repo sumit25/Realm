@@ -6,7 +6,8 @@ package com.realm.sumit.utils;
 
 public interface AppConstants {
 
-    String GRANT_TYPE = "password";
+    String GRANT_TYPE_PASSWORD = "password";
+    String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
     String SCOPE = "user";
 
 }

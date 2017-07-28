@@ -15,4 +15,5 @@
     </string>
 
     <string name="base_url">"https://api.es-q.co/"</string>
+    <string name="error_login_failed">Invalid username and/or password</string>
 </resources>

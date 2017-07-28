@@ -53,7 +53,7 @@ public class APIClient extends ClientConfig implements Authenticator {
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
         if (null != response.request() && null != response.request().url()) {
-            if (response.request().url().toString().contains("oauth2/token")) {
+            if (response.request().url().toString().contains("oauth/token.json")) {
                 return null;
             }
         }
@@ -72,7 +72,7 @@ public class APIClient extends ClientConfig implements Authenticator {
     private RMTokenDTO getRefreshToken() {
         Log.d("TOKEN REFRESH:: ","Requesting new access token...");
         try {
-            retrofit2.Response<RMTokenDTO> response = mAPIInterface.refreshAccessToken(AppConstants.GRANT_TYPE, AppConstants.SCOPE, RealmApp.getPreferences().getTokenDTO().getRefreshToken()).execute();
+            retrofit2.Response<RMTokenDTO> response = mAPIInterface.refreshAccessToken(AppConstants.GRANT_TYPE_REFRESH_TOKEN, AppConstants.SCOPE, RealmApp.getPreferences().getTokenDTO().getRefreshToken()).execute();
             if (APICallback.HTTP_OK == response.code()) {
                 return response.body();
             }
@@ -85,7 +85,7 @@ public class APIClient extends ClientConfig implements Authenticator {
 
     public void getAccessToken(String username, String password, final APICallback<RMTokenDTO> apiCallback) {
 
-        mAPIInterface.getAccessToken(AppConstants.GRANT_TYPE, AppConstants.SCOPE, username, password).enqueue(apiCallback);
+        mAPIInterface.getAccessToken(AppConstants.GRANT_TYPE_PASSWORD, AppConstants.SCOPE, username, password).enqueue(apiCallback);
     }
 
     public void getCurrentUser(final APICallback<RMUserResponse> apiCallback){

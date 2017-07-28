@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.realm.sumit.R;
+import com.realm.sumit.Realm.RealmHelper;
 import com.realm.sumit.api.APIClient;
 
 import io.realm.Realm;
@@ -20,6 +21,7 @@ public class RealmApp extends Application {
 
     private static APIClient apiClient;
     private static AppPreferences appPreferences;
+    private static RealmHelper realmHelper;
 
     @Override
     public void onCreate() {
@@ -29,6 +31,7 @@ public class RealmApp extends Application {
         apiClient = APIClient.init();
         appPreferences = AppPreferences.init();
         mBaseUrl = mContext.getString(R.string.base_url);
+        realmHelper = RealmHelper.init();
 
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
@@ -49,5 +52,9 @@ public class RealmApp extends Application {
 
     public static AppPreferences getPreferences() {
         return appPreferences;
+    }
+
+    public static RealmHelper getRealmHelper() {
+        return realmHelper;
     }
 }
