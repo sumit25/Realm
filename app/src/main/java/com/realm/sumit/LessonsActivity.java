@@ -69,6 +69,7 @@ public class LessonsActivity extends AppCompatActivity {
             @Override
             public void onResponse(RmUserProfileResponse body) {
                 Log.d("user name in profile", body.getUserProfile().getUserDocument().getName());
+                RealmApp.getRealmHelper().saveUserProfileToRealm(body);
             }
         });
     }
