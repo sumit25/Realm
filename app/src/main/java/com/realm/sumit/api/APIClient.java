@@ -103,14 +103,14 @@ public class APIClient extends ClientConfig implements Authenticator {
         queryMap.put("select[]","_id");
         queryMap.put("select[]","user_document");
 
-        mAPIInterface.getUserProfile(companyId,userId,queryMap).enqueue(apiCallback);
+        //mAPIInterface.getUserProfile(companyId,userId,queryMap).enqueue(apiCallback);
 
-//        mAPIInterface.getUserProfile(companyId,
-//                userId,
-//                "status",
-//                "title",
-//                "lesson_id",
-//                "_id",
-//                "user_document").enqueue(apiCallback);
+        mAPIInterface.getUserProfile(companyId,
+                userId,
+                "status",
+                "title",
+                "lesson_id",
+                "_id",
+                "user_document").enqueue(apiCallback);
     }
 }
