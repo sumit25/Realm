@@ -13,6 +13,7 @@ import com.realm.sumit.config.RealmApp;
 import com.realm.sumit.dtos.RMUserResponse;
 import com.realm.sumit.dtos.RealmString;
 import com.realm.sumit.dtos.RmUserProfileResponse;
+import com.realm.sumit.dtos.UserProfileRMObject;
 import com.realm.sumit.dtos.UserRMObject;
 
 import io.realm.Realm;
@@ -70,6 +71,13 @@ public class LessonsActivity extends AppCompatActivity {
             public void onResponse(RmUserProfileResponse body) {
                 Log.d("user name in profile", body.getUserProfile().getUserDocument().getName());
                 RealmApp.getRealmHelper().saveUserProfileToRealm(body);
+
+                RealmQuery<UserProfileRMObject> query1 = Realm.getDefaultInstance().where(UserProfileRMObject.class);
+                RealmResults<UserProfileRMObject> result2 = query1.findAll();
+                Log.d("lesson title realm",result2.get(0).getUserLessons().get(0).getLessonTitle());
+                Log.d("lesson status realm",result2.get(0).getUserLessons().get(0).getStatus());
+                Log.d("lesson id realm",result2.get(0).getUserLessons().get(0).getLessonId());
+
             }
         });
     }

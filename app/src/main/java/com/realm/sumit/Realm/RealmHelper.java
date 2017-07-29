@@ -70,7 +70,9 @@ public class RealmHelper {
         RealmList<UserLessonRMObject> userLessonsRMObjects = new RealmList<>();
         userLessons = userProfileResponse.getUserProfile().getUserLessons();
         for(RMUserLesson userLesson: userLessons){
-            UserLessonRMObject userLessonRMObject = new UserLessonRMObject();
+//            Realm realmInstanceLessons = Realm.getDefaultInstance();
+//            realmInstance.beginTransaction();
+            UserLessonRMObject userLessonRMObject = realmInstance.createObject(UserLessonRMObject.class);;
 
             userLessonRMObject.setLessonId(userLesson.getLessonsId());
             userLessonRMObject.setLessonTitle(userLesson.getLesson().getTitle());
@@ -79,5 +81,8 @@ public class RealmHelper {
             userLessonsRMObjects.add(userLessonRMObject);
         }
         userProfile.setUserLessons(userLessonsRMObjects);
+
+        realmInstance.copyToRealm(userProfile);
+        realmInstance.commitTransaction();
     }
 }
