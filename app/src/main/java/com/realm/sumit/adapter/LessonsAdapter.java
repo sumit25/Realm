@@ -6,14 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.realm.sumit.R;
 import com.realm.sumit.dtos.UserLessonRMObject;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.RealmList;
 
@@ -27,10 +23,6 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonsV
     private Context mContext;
 
     public LessonsAdapter(RealmList<UserLessonRMObject> userLessons, Context context) {
-
-//        if (null == userLessons) {
-//            mUserLessons = new RealmList<>();
-//        }
         mUserLessons = userLessons;
         mContext = context;
 

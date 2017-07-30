@@ -28,9 +28,9 @@ public class RealmApp extends Application {
         super.onCreate();
 
         mContext = this;
+        mBaseUrl = mContext.getString(R.string.base_url);
         apiClient = APIClient.init();
         appPreferences = AppPreferences.init();
-        mBaseUrl = mContext.getString(R.string.base_url);
         realmHelper = RealmHelper.init();
 
         Realm.init(this);

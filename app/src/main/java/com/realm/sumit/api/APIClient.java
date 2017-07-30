@@ -3,14 +3,12 @@ package com.realm.sumit.api;
 import android.util.Log;
 
 import com.realm.sumit.config.RealmApp;
-import com.realm.sumit.dtos.RMLoginDTO;
 import com.realm.sumit.dtos.RMTokenDTO;
 import com.realm.sumit.dtos.RMUserResponse;
 import com.realm.sumit.dtos.RmUserProfileResponse;
 import com.realm.sumit.utils.AppConstants;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import okhttp3.Authenticator;
 import okhttp3.Request;
@@ -94,16 +92,6 @@ public class APIClient extends ClientConfig implements Authenticator {
     }
 
     public void getUserProfile(String companyId, String userId, final APICallback<RmUserProfileResponse> apiCallback){
-
-
-        HashMap<String, String> queryMap = new HashMap<>();
-        queryMap.put("include[user_lessons][only][]","status");
-        queryMap.put("include[user_lessons][include][lesson][only]", "title");
-        queryMap.put("include[user_lessons][only][]","lesson_id");
-        queryMap.put("select[]","_id");
-        queryMap.put("select[]","user_document");
-
-        //mAPIInterface.getUserProfile(companyId,userId,queryMap).enqueue(apiCallback);
 
         mAPIInterface.getUserProfile(companyId,
                 userId,

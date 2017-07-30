@@ -1,6 +1,6 @@
 package com.realm.sumit.Realm;
 
-import com.realm.sumit.api.APIClient;
+
 import com.realm.sumit.dtos.RMUserLesson;
 import com.realm.sumit.dtos.RMUserResponse;
 import com.realm.sumit.dtos.RmUserProfileResponse;
@@ -70,14 +70,11 @@ public class RealmHelper {
         RealmList<UserLessonRMObject> userLessonsRMObjects = new RealmList<>();
         userLessons = userProfileResponse.getUserProfile().getUserLessons();
         for(RMUserLesson userLesson: userLessons){
-//            Realm realmInstanceLessons = Realm.getDefaultInstance();
-//            realmInstance.beginTransaction();
             UserLessonRMObject userLessonRMObject = realmInstance.createObject(UserLessonRMObject.class);;
 
             userLessonRMObject.setLessonId(userLesson.getLessonsId());
             userLessonRMObject.setLessonTitle(userLesson.getLesson().getTitle());
             userLessonRMObject.setStatus(userLesson.getStatus());
-
             userLessonsRMObjects.add(userLessonRMObject);
         }
         userProfile.setUserLessons(userLessonsRMObjects);

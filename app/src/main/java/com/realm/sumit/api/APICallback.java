@@ -1,7 +1,6 @@
 package com.realm.sumit.api;
 
 
-import android.content.Intent;
 
 import java.io.IOException;
 
@@ -76,23 +75,12 @@ public abstract class APICallback<T> implements Callback<T> {
 
     //TODO handle error case
     public void onFailure(String message) {
-//        if (null != mActivity) {
-//            if (null == message) {
-//                message = mActivity.getString(R.string.error_connecting_server);
-//            }
-//            SnackbarUtils.showSnackBar(mActivity, message);
-//        }
+
     }
 
     //TODO handle case
     public void onUnauthorizedAccess() {
-//        if (null != mActivity) {
-//            KisanHubApp.getPreferences().clearPreferencesData();
-//            Intent intent = new Intent(mActivity, LoginActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//            mActivity.startActivity(intent);
-//            mActivity.delayedFinishActivity();
-//        }
+
     }
 
     public void onPageNotFound() {

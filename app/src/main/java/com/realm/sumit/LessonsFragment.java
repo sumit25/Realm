@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.realm.sumit.adapter.LessonsAdapter;
 import com.realm.sumit.dtos.UserLessonRMObject;
@@ -27,7 +26,6 @@ public class LessonsFragment extends Fragment {
 
     private String mType;
 
-    private TextView tv;
     private LessonsAdapter mLessonsAdapter;
     private RealmList<UserLessonRMObject> mUserLessons;
     private RecyclerView mRvLessonsView;
@@ -36,7 +34,6 @@ public class LessonsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.completed_lessons_fragment, container, false);
-        tv = (TextView) view.findViewById(R.id.tv);
         mRvLessonsView = (RecyclerView) view.findViewById(R.id.rv_lessons);
         mRvLessonsView.setHasFixedSize(true);
         mRvLessonsView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -88,9 +85,6 @@ public class LessonsFragment extends Fragment {
 
     public void setType(String type) {
         mType = type;
-        if (null != tv) {
-            // tv.setText(mType);
-        }
     }
 
 }

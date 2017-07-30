@@ -2,8 +2,7 @@ package com.realm.sumit.api;
 
 import android.text.TextUtils;
 
-import com.realm.sumit.R;
-import com.realm.sumit.config.AppPreferences;
+
 import com.realm.sumit.config.RealmApp;
 import com.realm.sumit.dtos.RMTokenDTO;
 
@@ -31,7 +30,6 @@ public class APIUtils {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
                 RMTokenDTO rmTokenDTO = RealmApp.getPreferences().getTokenDTO();
-               //TODO String token = "";
                 String token = "";
                 if(null != rmTokenDTO){
                    token = rmTokenDTO.getAccessToken();
@@ -69,10 +67,10 @@ public class APIUtils {
                 .client(getOkHttpClient(tokenAuthenticator, readTimeout, writeTimeout, connectTimeout))
                 .addConverterFactory(GsonConverterFactory.create());
         try {
-            return retrofitBuilder.baseUrl("https://api.es-q.co/").build();
+            return retrofitBuilder.baseUrl(RealmApp.getBaseUrl()).build();
         } catch (Exception e) {
         }
-        return retrofitBuilder.baseUrl("https://api.es-q.co/").build();
+        return retrofitBuilder.baseUrl(RealmApp.getBaseUrl()).build();
     }
 
     public static int getResponseCount(Response response) {
