@@ -37,10 +37,18 @@ import com.realm.sumit.api.APIClient;
 import com.realm.sumit.config.AppPreferences;
 import com.realm.sumit.config.RealmApp;
 import com.realm.sumit.dtos.RMTokenDTO;
+import com.realm.sumit.dtos.RMUserResponse;
+import com.realm.sumit.dtos.RmUserProfileResponse;
+import com.realm.sumit.dtos.UserProfileRMObject;
+import com.realm.sumit.dtos.UserRMObject;
 import com.realm.sumit.utils.SnackbarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -196,9 +204,8 @@ public class LoginActivity extends AppCompatActivity{
                     RealmApp.getPreferences().setTokenDTO(body);
                     Log.d("access token from prefs" , RealmApp.getPreferences().getTokenDTO().getAccessToken());
 
-                    Intent lessonsActivityIntent = new Intent(LoginActivity.this, LessonsActivity.class);
-                    lessonsActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(lessonsActivityIntent);
+                    getCurrentUser();
+
                 }
 
                 @Override
@@ -212,6 +219,47 @@ public class LoginActivity extends AppCompatActivity{
             });
 
         }
+    }
+
+    private void getCurrentUser() {
+
+        RealmApp.getAPIClient().getCurrentUser(new APICallback<RMUserResponse>() {
+            @Override
+            public void onResponse(RMUserResponse userResponse) {
+                Log.d("username", userResponse.getUser().getName());
+                Log.d("company id", userResponse.getUser().getCompanyIds().get(0).toString());
+
+                RealmApp.getRealmHelper().saveUserToRealm(userResponse);
+                getUserProfile(userResponse);
+            }
+        });
+    }
+
+    private void getUserProfile(RMUserResponse userResponse) {
+
+        RealmQuery<UserRMObject> query = Realm.getDefaultInstance().where(UserRMObject.class);
+        RealmResults<UserRMObject> result1 = query.findAll();
+
+        Log.d("result from realm", result1.get(0).getEmail());
+        Log.d("realm role id", result1.get(0).getRoleId());
+        Log.d("realm company id", result1.get(0).getCompanyId());
+
+        RealmApp.getAPIClient().getUserProfile(userResponse.getUser().getCompanyIds().get(0).toString(), userResponse.getUser().getId(), new APICallback<RmUserProfileResponse>() {
+            @Override
+            public void onResponse(RmUserProfileResponse body) {
+                Log.d("user name in profile", body.getUserProfile().getUserDocument().getName());
+                RealmApp.getRealmHelper().saveUserProfileToRealm(body);
+
+                RealmQuery<UserProfileRMObject> query1 = Realm.getDefaultInstance().where(UserProfileRMObject.class);
+                RealmResults<UserProfileRMObject> result2 = query1.findAll();
+                Log.d("lesson title realm",result2.get(0).getUserLessons().get(0).getLessonTitle());
+
+                Intent lessonsActivityIntent = new Intent(LoginActivity.this, LessonsActivity.class);
+                lessonsActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(lessonsActivityIntent);
+
+            }
+        });
     }
 
     private boolean isEmailValid(String email) {

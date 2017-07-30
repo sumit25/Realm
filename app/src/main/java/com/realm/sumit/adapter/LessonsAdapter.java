@@ -1,5 +1,6 @@
 package com.realm.sumit.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,27 +23,17 @@ import io.realm.RealmList;
 
 public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonsViewHolder> {
 
-    private Listener mListener;
     private RealmList<UserLessonRMObject> mUserLessons;
     private Context mContext;
 
-    public LessonsAdapter(RealmList<UserLessonRMObject> userLessons, Listener listener, Context context) {
+    public LessonsAdapter(RealmList<UserLessonRMObject> userLessons, Context context) {
 
-        if (null == userLessons) {
-            mUserLessons = new RealmList<>();
-        }
+//        if (null == userLessons) {
+//            mUserLessons = new RealmList<>();
+//        }
         mUserLessons = userLessons;
         mContext = context;
-        mListener = listener;
 
-    }
-
-    public void addLessons(RealmList<UserLessonRMObject> lessonsList) {
-        if (null != lessonsList && lessonsList.size() > 0) {
-            int start = mUserLessons.size();
-            mUserLessons.addAll(lessonsList);
-            notifyItemRangeInserted(start, lessonsList.size());
-        }
     }
 
     @Override
@@ -51,6 +42,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonsV
         return new LessonsViewHolder(v);
     }
 
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(LessonsAdapter.LessonsViewHolder holder, int position) {
 
@@ -81,15 +73,8 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.LessonsV
 
         @Override
         public void onClick(View view) {
-            if (null != mListener) {
-                mListener.onItemClicked(mUserLessons.get(position));
-            }
+
         }
     }
 
-    public interface Listener {
-        void onGetNextPage(int position);
-
-        void onItemClicked(UserLessonRMObject article);
-    }
 }

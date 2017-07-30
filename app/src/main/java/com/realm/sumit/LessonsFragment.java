@@ -3,6 +3,7 @@ package com.realm.sumit;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ import io.realm.RealmResults;
  * Created by sumit on 27/07/17.
  */
 
-public class LessonsFragment extends Fragment implements  LessonsAdapter.Listener{
+public class LessonsFragment extends Fragment {
 
     private String mType;
 
@@ -37,52 +38,59 @@ public class LessonsFragment extends Fragment implements  LessonsAdapter.Listene
         View view = inflater.inflate(R.layout.completed_lessons_fragment, container, false);
         tv = (TextView) view.findViewById(R.id.tv);
         mRvLessonsView = (RecyclerView) view.findViewById(R.id.rv_lessons);
-
+        mRvLessonsView.setHasFixedSize(true);
+        mRvLessonsView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        tv.setText(mType);
-
-        if(mType.equalsIgnoreCase("Completed")){
+        if (mType.equalsIgnoreCase("Completed")) {
             RealmQuery<UserProfileRMObject> query1 = Realm.getDefaultInstance().where(UserProfileRMObject.class);
             RealmResults<UserProfileRMObject> result2 = query1.findAll();
 
             mUserLessons = new RealmList<>();
-            for(int i=0 ; i < result2.get(0).getUserLessons().size(); i ++){
-                UserLessonRMObject userLessonRMObject = new UserLessonRMObject();
-                userLessonRMObject.setLessonTitle(result2.get(0).getUserLessons().get(i).getLessonTitle());
-                userLessonRMObject.setStatus(result2.get(0).getUserLessons().get(i).getStatus());
-                userLessonRMObject.setLessonId(result2.get(0).getUserLessons().get(i).getLessonId());
-                mUserLessons.add(userLessonRMObject);
+            for (int i = 0; i < result2.get(0).getUserLessons().size(); i++) {
+                if (result2.get(0).getUserLessons().get(i).getStatus().equalsIgnoreCase("Completed")) {
+                    UserLessonRMObject userLessonRMObject = new UserLessonRMObject();
+                    userLessonRMObject.setLessonTitle(result2.get(0).getUserLessons().get(i).getLessonTitle());
+                    userLessonRMObject.setStatus(result2.get(0).getUserLessons().get(i).getStatus());
+                    userLessonRMObject.setLessonId(result2.get(0).getUserLessons().get(i).getLessonId());
+                    mUserLessons.add(userLessonRMObject);
+                }
+
             }
-            //http://gradlewhy.ghost.io/realm-results-with-recyclerview/
-            mLessonsAdapter = new LessonsAdapter(mUserLessons, LessonsFragment.this, this.getActivity());
+            mLessonsAdapter = new LessonsAdapter(mUserLessons, this.getActivity());
             mRvLessonsView.setAdapter(mLessonsAdapter);
-            mLessonsAdapter.notifyDataSetChanged();
 
+        } else {
+            RealmQuery<UserProfileRMObject> query1 = Realm.getDefaultInstance().where(UserProfileRMObject.class);
+            RealmResults<UserProfileRMObject> result2 = query1.findAll();
 
-            //mLessonsAdapter.addLessons(mUserLessons);
-           // mLessonsAdapter.notifyDataSetChanged();
+            mUserLessons = new RealmList<>();
+            for (int i = 0; i < result2.get(0).getUserLessons().size(); i++) {
+
+                if (result2.get(0).getUserLessons().get(i).getStatus().equalsIgnoreCase("started")) {
+                    UserLessonRMObject userLessonRMObject = new UserLessonRMObject();
+                    userLessonRMObject.setLessonTitle(result2.get(0).getUserLessons().get(i).getLessonTitle());
+                    userLessonRMObject.setStatus(result2.get(0).getUserLessons().get(i).getStatus());
+                    userLessonRMObject.setLessonId(result2.get(0).getUserLessons().get(i).getLessonId());
+                    mUserLessons.add(userLessonRMObject);
+                }
+
+            }
+            mLessonsAdapter = new LessonsAdapter(mUserLessons, this.getActivity());
+            mRvLessonsView.setAdapter(mLessonsAdapter);
         }
     }
+
 
     public void setType(String type) {
         mType = type;
         if (null != tv) {
-            tv.setText(mType);
+            // tv.setText(mType);
         }
     }
 
-    @Override
-    public void onGetNextPage(int position) {
-
-    }
-
-    @Override
-    public void onItemClicked(UserLessonRMObject article) {
-
-    }
 }

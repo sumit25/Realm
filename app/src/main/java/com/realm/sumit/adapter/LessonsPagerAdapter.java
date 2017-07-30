@@ -38,6 +38,8 @@ public class LessonsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         LessonsFragment lessonsFragment = new LessonsFragment();
         lessonsFragment.setType(mTitles[position]);
+
+
         return lessonsFragment;
     }
 }

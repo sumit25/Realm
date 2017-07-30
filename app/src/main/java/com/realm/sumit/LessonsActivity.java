@@ -40,45 +40,8 @@ public class LessonsActivity extends AppCompatActivity {
         vpLessonsFragments.setAdapter(mLessonsPagerAdapter);
         mTabLayout.setupWithViewPager(vpLessonsFragments);
 
-        getCurrentUser();
+        //getCurrentUser();
     }
 
-    private void getCurrentUser() {
 
-        RealmApp.getAPIClient().getCurrentUser(new APICallback<RMUserResponse>() {
-            @Override
-            public void onResponse(RMUserResponse userResponse) {
-                Log.d("username", userResponse.getUser().getName());
-                Log.d("company id", userResponse.getUser().getCompanyIds().get(0).toString());
-
-                RealmApp.getRealmHelper().saveUserToRealm(userResponse);
-                getUserProfile(userResponse);
-            }
-        });
-    }
-
-    private void getUserProfile(RMUserResponse userResponse) {
-
-        RealmQuery<UserRMObject> query = Realm.getDefaultInstance().where(UserRMObject.class);
-        RealmResults<UserRMObject> result1 = query.findAll();
-
-        Log.d("result from realm", result1.get(0).getEmail());
-        Log.d("realm role id", result1.get(0).getRoleId());
-        Log.d("realm company id", result1.get(0).getCompanyId());
-
-        RealmApp.getAPIClient().getUserProfile(userResponse.getUser().getCompanyIds().get(0).toString(), userResponse.getUser().getId(), new APICallback<RmUserProfileResponse>() {
-            @Override
-            public void onResponse(RmUserProfileResponse body) {
-                Log.d("user name in profile", body.getUserProfile().getUserDocument().getName());
-                RealmApp.getRealmHelper().saveUserProfileToRealm(body);
-
-                RealmQuery<UserProfileRMObject> query1 = Realm.getDefaultInstance().where(UserProfileRMObject.class);
-                RealmResults<UserProfileRMObject> result2 = query1.findAll();
-                Log.d("lesson title realm",result2.get(0).getUserLessons().get(0).getLessonTitle());
-                Log.d("lesson status realm",result2.get(0).getUserLessons().get(0).getStatus());
-                Log.d("lesson id realm",result2.get(0).getUserLessons().get(0).getLessonId());
-
-            }
-        });
-    }
 }
