@@ -30,6 +30,7 @@ import com.realm.sumit.dtos.RMTokenDTO;
 import com.realm.sumit.dtos.RMUserResponse;
 import com.realm.sumit.dtos.RmUserProfileResponse;
 
+import com.realm.sumit.utils.ConnectivityUtil;
 import com.realm.sumit.utils.SnackbarUtils;
 
 
@@ -38,7 +39,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_READ_CONTACTS = 0;
@@ -50,13 +51,14 @@ public class LoginActivity extends AppCompatActivity{
     private View mLoginFormView;
 
     private ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         RMTokenDTO rmTokenDTO = RealmApp.getPreferences().getTokenDTO();
-        if(null != rmTokenDTO){
+        if (null != rmTokenDTO) {
             Intent lessonsActivityIntent = new Intent(LoginActivity.this, LessonsActivity.class);
             lessonsActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(lessonsActivityIntent);
@@ -177,27 +179,30 @@ public class LoginActivity extends AppCompatActivity{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
 
-            mProgressDialog = ProgressDialog.show(this, "Please wait", "authenticating user...");
-            RealmApp.getAPIClient().getAccessToken(email, password, new APICallback<RMTokenDTO>() {
-                @Override
-                public void onResponse(RMTokenDTO body) {
-                    Log.d("access token", body.getAccessToken());
-                    RealmApp.getPreferences().setTokenDTO(body);
-                    Log.d("access token from prefs" , RealmApp.getPreferences().getTokenDTO().getAccessToken());
+            if (ConnectivityUtil.isConnected(this)) {
+                mProgressDialog = ProgressDialog.show(this, "Please wait", "authenticating user...");
+                RealmApp.getAPIClient().getAccessToken(email, password, new APICallback<RMTokenDTO>() {
+                    @Override
+                    public void onResponse(RMTokenDTO body) {
+                        Log.d("access token", body.getAccessToken());
+                        RealmApp.getPreferences().setTokenDTO(body);
+                        Log.d("access token from prefs", RealmApp.getPreferences().getTokenDTO().getAccessToken());
 
-                    getCurrentUser();
+                        getCurrentUser();
 
-                }
+                    }
 
-                @Override
-                public void onUnauthorizedAccess() {
-                    mProgressDialog.dismiss();
-                    SnackbarUtils.showSnackBar(LoginActivity.this, R.string.error_login_failed);
+                    @Override
+                    public void onUnauthorizedAccess() {
+                        mProgressDialog.dismiss();
+                        SnackbarUtils.showSnackBar(LoginActivity.this, R.string.error_login_failed);
 
-                    mPasswordView.getText().clear();
-                    mPasswordView.requestFocus();
-                }
-            });
+                        mPasswordView.getText().clear();
+                        mPasswordView.requestFocus();
+                    }
+                });
+
+            }
 
         }
     }
