@@ -73,7 +73,7 @@ public class LessonsFragment extends Fragment {
         mLessonsAdapter = new LessonsAdapter(mUserLessons, this.getActivity());
         mRvLessonsView.setAdapter(mLessonsAdapter);
     }
-    
+
     public void setType(String type) {
         mType = type;
     }
