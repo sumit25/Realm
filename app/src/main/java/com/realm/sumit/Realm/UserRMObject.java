@@ -1,4 +1,4 @@
-package com.realm.sumit.dtos;
+package com.realm.sumit.Realm;
 
 import com.google.gson.annotations.SerializedName;
 

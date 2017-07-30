@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.realm.sumit.adapter.LessonsAdapter;
-import com.realm.sumit.dtos.UserLessonRMObject;
-import com.realm.sumit.dtos.UserProfileRMObject;
+import com.realm.sumit.Realm.UserLessonRMObject;
+import com.realm.sumit.Realm.UserProfileRMObject;
 
 import io.realm.Realm;
 import io.realm.RealmList;

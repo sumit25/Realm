@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.realm.sumit.R;
-import com.realm.sumit.dtos.UserLessonRMObject;
+import com.realm.sumit.Realm.UserLessonRMObject;
 
 
 import io.realm.RealmList;

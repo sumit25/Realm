@@ -4,9 +4,6 @@ package com.realm.sumit.Realm;
 import com.realm.sumit.dtos.RMUserLesson;
 import com.realm.sumit.dtos.RMUserResponse;
 import com.realm.sumit.dtos.RmUserProfileResponse;
-import com.realm.sumit.dtos.UserLessonRMObject;
-import com.realm.sumit.dtos.UserProfileRMObject;
-import com.realm.sumit.dtos.UserRMObject;
 
 import java.util.ArrayList;
 
