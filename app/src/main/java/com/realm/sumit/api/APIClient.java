@@ -20,10 +20,8 @@ import okhttp3.Route;
  */
 
 public class APIClient extends ClientConfig implements Authenticator {
-    private final int HTTP_OK = 200;
-    private final int HTTP_CREATED = 201;
+
     private final int HTTP_UNAUTHORIZED = 401;
-    private final int HTTP_NOT_FOUND = 404;
 
     private static APIClient mAPIClient;
 

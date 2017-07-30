@@ -50,9 +50,6 @@ public abstract class APICallback<T> implements Callback<T> {
         if (HTTP_UNAUTHORIZED == responseCode) {
             mStatus = Status.UNAUTHORIZED;
             onUnauthorizedAccess();
-        } else if (HTTP_NOT_FOUND == responseCode) {
-            mStatus = Status.PAGE_NOT_FOUND;
-            onPageNotFound();
         } else {
             mStatus = Status.FAILURE;
             String errorMessage = getErrorMessage(errorBody);
@@ -83,11 +80,9 @@ public abstract class APICallback<T> implements Callback<T> {
 
     }
 
-    public void onPageNotFound() {
-    }
 
 
     public enum Status {
-        SUCCESS, UNAUTHORIZED, PAGE_NOT_FOUND, FAILURE
+        SUCCESS, UNAUTHORIZED, FAILURE
     }
 }

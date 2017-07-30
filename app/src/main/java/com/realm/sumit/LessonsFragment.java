@@ -43,10 +43,9 @@ public class LessonsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        RealmQuery<UserProfileRMObject> query1 = Realm.getDefaultInstance().where(UserProfileRMObject.class);
+        RealmResults<UserProfileRMObject> result2 = query1.findAll();
         if (mType.equalsIgnoreCase("Completed")) {
-            RealmQuery<UserProfileRMObject> query1 = Realm.getDefaultInstance().where(UserProfileRMObject.class);
-            RealmResults<UserProfileRMObject> result2 = query1.findAll();
-
             mUserLessons = new RealmList<>();
             for (int i = 0; i < result2.get(0).getUserLessons().size(); i++) {
                 if (result2.get(0).getUserLessons().get(i).getStatus().equalsIgnoreCase("Completed")) {
@@ -56,18 +55,11 @@ public class LessonsFragment extends Fragment {
                     userLessonRMObject.setLessonId(result2.get(0).getUserLessons().get(i).getLessonId());
                     mUserLessons.add(userLessonRMObject);
                 }
-
             }
-            mLessonsAdapter = new LessonsAdapter(mUserLessons, this.getActivity());
-            mRvLessonsView.setAdapter(mLessonsAdapter);
 
         } else {
-            RealmQuery<UserProfileRMObject> query1 = Realm.getDefaultInstance().where(UserProfileRMObject.class);
-            RealmResults<UserProfileRMObject> result2 = query1.findAll();
-
             mUserLessons = new RealmList<>();
             for (int i = 0; i < result2.get(0).getUserLessons().size(); i++) {
-
                 if (result2.get(0).getUserLessons().get(i).getStatus().equalsIgnoreCase("started")) {
                     UserLessonRMObject userLessonRMObject = new UserLessonRMObject();
                     userLessonRMObject.setLessonTitle(result2.get(0).getUserLessons().get(i).getLessonTitle());
@@ -75,14 +67,13 @@ public class LessonsFragment extends Fragment {
                     userLessonRMObject.setLessonId(result2.get(0).getUserLessons().get(i).getLessonId());
                     mUserLessons.add(userLessonRMObject);
                 }
-
             }
-            mLessonsAdapter = new LessonsAdapter(mUserLessons, this.getActivity());
-            mRvLessonsView.setAdapter(mLessonsAdapter);
         }
+
+        mLessonsAdapter = new LessonsAdapter(mUserLessons, this.getActivity());
+        mRvLessonsView.setAdapter(mLessonsAdapter);
     }
-
-
+    
     public void setType(String type) {
         mType = type;
     }
